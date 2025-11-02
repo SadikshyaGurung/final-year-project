@@ -35,11 +35,11 @@ class Kernel extends HttpKernel
         // Global HTTP middleware stack
         \App\Http\Middleware\TrustProxies::class,
         // ✅ Laravel Native CORS Middleware
-\Illuminate\Http\Middleware\HandleCors::class,
-
+        \Illuminate\Http\Middleware\HandleCors::class,
         \App\Http\Middleware\PreventRequestsDuringMaintenance::class,
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
+        // \App\Http\Middleware\CorsMiddleware::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
     ];
 

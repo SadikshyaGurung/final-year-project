@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\DetectionController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DiagnosisController;
-
+use App\Http\Middleware\IsAdmin;
 // 📨 Public contact form route (no auth required)
 Route::post('/messages', [MessageController::class, 'store']);
 
@@ -30,14 +30,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // 📄 Download diagnosis report
     Route::post('/download-diagnosis', [DiagnosisController::class, 'downloadDiagnosis']);
 
-    // 👨‍💼 Admin routes
-    Route::prefix('admin')->middleware('is_admin')->group(function () {
-        Route::get('/dashboard', [AdminController::class, 'getDashboardData']);
-        Route::get('/users', [AdminController::class, 'users']);
-        Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
-        Route::get('/histories', [AdminController::class, 'histories']);
-        Route::delete('/histories/{id}', [AdminController::class, 'deleteHistory']);
-        Route::get('/messages', [AdminController::class, 'messages']);
-        Route::delete('/messages/{id}', [AdminController::class, 'destroyMessage']);
-    });
+
+// ✅ CORRECT - Add auth:sanctum first
+Route::prefix('admin')->middleware(['auth:sanctum', 'is_admin'])->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'getDashboardData']);
+    Route::get('/users', [AdminController::class, 'users']);
+    Route::delete('/users/{id}', [AdminController::class, 'deleteUser']);
+    Route::get('/histories', [AdminController::class, 'histories']);
+    Route::delete('/histories/{id}', [AdminController::class, 'deleteHistory']);
+    Route::get('/messages', [AdminController::class, 'messages']);
+    Route::delete('/messages/{id}', [AdminController::class, 'destroyMessage']);
+});
 });

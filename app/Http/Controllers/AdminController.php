@@ -15,13 +15,12 @@ class AdminController extends Controller
     {
         $totalMessages = Message::count();
         $totalUsers = User::count();
-        $totalDiagnoses = Diagnosis::count();
+        $totalDiagnoses = History::count();
 
         return response()->json([
-            'totalMessages' => $totalMessages,
-            'totalUsers' => $totalUsers,
-            'totalDiagnoses' => $totalDiagnoses
-        ]);
+            'total_users' => User::count(),      // ✅ snake_case
+            'total_messages' => Message::count(),
+            'total_diagnoses' => History::count(),        ]);
     }
 
     // List all users (users page) - UPDATED TO INCLUDE AGE & GENDER

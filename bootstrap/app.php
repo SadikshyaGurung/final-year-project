@@ -12,13 +12,9 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Add CORS middleware at the very beginning
-        $middleware->prepend(\App\Http\Middleware\CorsMiddleware::class);
-        
-        // Disable CSRF for login/register during testing
-        $middleware->validateCsrfTokens(except: [
-            'login',
-            'register',
+        // ✅ Add this line
+        $middleware->alias([
+            'is_admin' => \App\Http\Middleware\IsAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

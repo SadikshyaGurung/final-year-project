@@ -15,9 +15,6 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 |--------------------------------------------------------------------------
 | Session-based authentication routes for SPA frontend
 */
-
-Route::middleware('web')->group(function () {
-
     // CSRF + login/logout/register
     Route::post('/login', [LoginController::class, 'login']);
     Route::post('/register', [RegisteredUserController::class, 'store']);
@@ -33,7 +30,7 @@ Route::middleware('web')->group(function () {
     Route::get('/verify-email/{id}/{hash}', VerifyEmailController::class)
         ->middleware(['signed', 'throttle:6,1'])
         ->name('verification.verify');
-});
+
 
 Route::get('/', function () {
     return ['Laravel' => app()->version()];
