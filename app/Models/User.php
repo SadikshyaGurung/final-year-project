@@ -10,8 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable implements MustVerifyEmail
-{
+class User extends Authenticatable {
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasApiTokens, HasFactory, Notifiable;
 
@@ -21,10 +20,13 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    'name',
+    'email',
+    'password',
+    'age',
+    'gender',
+];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,5 +53,9 @@ public function histories(): \Illuminate\Database\Eloquent\Relations\HasMany
     'email_verified_at' => 'datetime',
     'password' => 'hashed',
 ];
+public function hasVerifiedEmail()
+    {
+        return !is_null($this->email_verified_at);
+    }
 
 }

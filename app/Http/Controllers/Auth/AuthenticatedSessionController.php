@@ -4,48 +4,38 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Handle an incoming authentication request.
-     */
- 
-public function store(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    public function store(LoginRequest $request)
+    {
+        $request->authenticate();
 
-    if (!Auth::attempt($credentials)) {
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        $user = Auth::user();
+
+        // Create token
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return response()->json([
+            'message' => 'Login successful',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+                'role' => $user->role ?? 'user',
+            ],
+            'token' => $token,
+        ], 200);
     }
 
-    $user = Auth::user();
-    $token = $user->createToken('auth_token')->plainTextToken;
-
-    return response()->json([
-        'message' => 'Login successful',
-        'user' => $user,
-        'token' => $token,
-    ]);
-}
-
-
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request)
-{
-    $request->user()->currentAccessToken()->delete();
+    {
+        $request->user()->currentAccessToken()->delete();
 
-    return response()->json([
-        'message' => 'Logged out successfully'
-    ]);
-}
-
+        return response()->json([
+            'message' => 'Logged out successfully',
+        ], 200);
+    }
 }
