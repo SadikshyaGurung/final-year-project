@@ -23,9 +23,6 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        // Example custom gate (you can remove this if unused)
-        // Gate::define('admin-only', function ($user) {
-        //     return $user->is_admin;
-        // });
+        
     }
 }

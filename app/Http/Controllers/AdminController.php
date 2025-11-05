@@ -15,10 +15,10 @@ class AdminController extends Controller
     {
         $totalMessages = Message::count();
         $totalUsers = User::count();
-        $totalDiagnoses = History::count();
+        $totalDiagnoses = Message::count();
 
         return response()->json([
-            'total_users' => User::count(),      // ✅ snake_case
+            'total_users' => User::count(),      
             'total_messages' => Message::count(),
             'total_diagnoses' => History::count(),        ]);
     }
@@ -32,35 +32,10 @@ class AdminController extends Controller
         return response()->json($users);
     }
 
-    // Delete a user (users page)
-    public function deleteUser($id)
-    {
-        $user = User::find($id);
-        if (!$user) return response()->json(['message' => 'User not found'], 404);
-        $user->delete();
-        return response()->json(['message' => 'User deleted']);
-    }
-
-    // View all histories (dashboard or other pages)
-    public function histories()
-    {
-        $histories = History::with('user')->latest()->get();
-        return response()->json($histories);
-    }
-
-    // Delete a history entry (admin functionality)
-    public function deleteHistory($id)
-    {
-        $history = History::find($id);
-        if (!$history) return response()->json(['message' => 'Not found'], 404);
-        $history->delete();
-        return response()->json(['message' => 'Deleted']);
-    }
-
     // Get all messages (messages page)
     public function messages()
     {
-        $messages = Contact::latest()->get();
+        $messages = Message::latest()->get();
         return response()->json($messages);
     }
 

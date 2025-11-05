@@ -13,12 +13,12 @@ class VerifyCsrfToken extends Middleware
      */
     protected $except = [
         'api/*',
-        'login',           // ✅ Remove the leading slash
-        'register',        // ✅ Remove the leading slash
+        'login',           
+        'register',        
         'logout',
         'forgot-password',
         'reset-password',
-        '*login*',         // ✅ Add wildcard pattern
+        '*login*',         
         '*register*',
     ];
 }

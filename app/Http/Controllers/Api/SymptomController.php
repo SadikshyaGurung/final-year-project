@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse; // ✅ THIS is the correct one
+use Illuminate\Http\JsonResponse; // THIS is the correct one
 
 class SymptomController extends Controller
 {
